@@ -12,6 +12,7 @@ A private, local-first medical record organizer built with Expo, React Native, T
 - Care Collections with notes, timelines, and many-to-many record membership
 - Permanent dark green interface designed for phones
 - Offline, device-local storage with no backend
+- Optional biometric app lock with automatic privacy cover and configurable re-lock timing
 
 ## Run locally
 

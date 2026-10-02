@@ -1,4 +1,5 @@
 import { ageAt, formatBytes, formatDate, isValidISODate } from '@/types/models';
+import { shouldLockAfter } from '@/lib/session';
 
 describe('record formatting', () => {
   test('formats small and large files', () => {
@@ -20,5 +21,18 @@ describe('record formatting', () => {
     expect(isValidISODate('2026-02-28')).toBe(true);
     expect(isValidISODate('2026-02-30')).toBe(false);
     expect(isValidISODate('2026-13-01')).toBe(false);
+  });
+});
+
+describe('app lock timing', () => {
+  test('locks immediately after leaving the app', () => {
+    expect(shouldLockAfter('immediate', 0)).toBe(true);
+  });
+
+  test('respects delayed lock settings', () => {
+    expect(shouldLockAfter('1m', 59_999)).toBe(false);
+    expect(shouldLockAfter('1m', 60_000)).toBe(true);
+    expect(shouldLockAfter('5m', 299_999)).toBe(false);
+    expect(shouldLockAfter('5m', 300_000)).toBe(true);
   });
 });
